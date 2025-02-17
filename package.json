@@ -1,6 +1,6 @@
 {
     "name": "@lucasroll62/nuxt3-auth",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "An alternative module to @nuxtjs/auth",
     "homepage": "https://github.com/lucasroll62/nuxt3-auth",
     "author": "Lucas Vivono",
@@ -49,6 +49,7 @@
         "@nuxt/schema": "^3.2.3",
         "@types/node": "^18.14.6",
         "fdir": "latest",
+        "nuxi": "^3.3.2",
         "nuxt": "^3.2.3",
         "unbuild": "latest"
     },

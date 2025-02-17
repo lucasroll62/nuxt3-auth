@@ -352,13 +352,20 @@ export class Oauth2Scheme extends BaseScheme {
   updateTokens(response) {
     const token = getProp(response, this.options.token.property);
     const refreshToken = getProp(response, this.options.refreshToken.property);
-    this.token.set(token);
-    const idToken = getProp(response, this.options.idToken.property);
-    if (idToken) {
-      this.idToken.set(idToken);
-    }
-    if (refreshToken) {
-      this.refreshToken.set(refreshToken);
+    const [header, payload, signature] = response.access_token.split('.');
+    const decodedPayload = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    const parsed = JSON.parse(decodedPayload);
+
+    if (parsed.exp * 1000 <= Date.now()) {
+      console.log('Token expired. Refreshing...');
+      this.token.set(token);
+      const idToken = getProp(response, this.options.idToken.property);
+      if (idToken) {
+        this.idToken.set(idToken);
+      }
+      if (refreshToken) {
+        this.refreshToken.set(refreshToken);
+      }
     }
   }
   async pkceChallengeFromVerifier(v, hashValue) {
